@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Survey</title>
+</head>
+
+<body>
+  <div class='container'>
+    <div class='card-panel blue-grey lighten-4 col s12 center-align'>
+      <h4>Survey Questions</h4>
+      <div class='card-panel left-align white'>
+        <h5>About You</h5>
+        <br>
+        <input id="name" type="text" class="validate" required>
+        <label class='active' for="name">Name (required)</label>
+
+        <h5>Question 1</h5>
+        <p>Ratatoille is one of the best movies ever created.</p>
+        <form action="#">
+          <p class="range-field">
+            <input type="range" min="1" max="5" id="q1" class="browser-default" />
+          </p>
+        </form>
+        <h5>Question 2</h5>
+        <p>My dream vacation would be to go to Italy.</p>
+        <form action="#">
+          <p class="range-field">
+            <input type="range" min="1" max="5" id="q2" class="browser-default" />
+          </p>
+        </form>
+        <h5>Question 3</h5>
+        <p>Music is my passion in life, along with animal rights.</p>
+        <form action="#">
+          <p class="range-field">
+            <input type="range" min="1" max="5" id="q3" class="browser-default" />
+          </p>
+        </form>
+        <h5>Question 4</h5>
+        <p>Sarcasm is my biggest strength.</p>
+        <form action="#">
+          <p class="range-field">
+            <input type="range" min="1" max="5" id="q4" class="browser-default" />
+          </p>
+        </form>
+        <h5>Question 5</h5>
+        <p>Dinosaurs are amazing.</p>
+        <form action="#">
+          <p class="range-field">
+            <input type="range" min="1" max="5" id="q5" class="browser-default" />
+          </p>
+        </form>
+        <h5>Question 6</h5>
+        <p>Every house needs a handheld vacuum to clean the larger vacuum.</p>
+        <form action="#">
+          <p class="range-field">
+            <input type="range" min="1" max="5" id="q6" class="browser-default" />
+          </p>
+        </form>
+        <h5>Question 7</h5>
+        <p>Bloomingdales is one of my favorite places in the world.</p>
+        <form action="#">
+          <p class="range-field">
+            <input type="range" min="1" max="5" id="q7" class="browser-default" />
+          </p>
+        </form>
+        <h5>Question 8</h5>
+        <p>Your friends have a difficult time understanding what your job is.</p>
+        <form action="#">
+          <p class="range-field">
+            <input type="range" min="1" max="5" id="q8" class="browser-default" />
+          </p>
+        </form>
+        <h5>Question 9</h5
+        <p>The best genre of TV shows are soap operas.</p>
+        <form action="#">
+          <p class="range-field">
+            <input type="range" min="1" max="5" id="q9" class="browser-default" />
+          </p>
+        </form>
+        <h5>Question 10</h5>
+        <p>It's not considered cheating if YOU WERE ON A BREAK.</p>
+        <form action="#">
+          <p class="range-field">
+            <input type="range" min="1" max="5" id="q10" class="browser-default" />
+          </p>
+        </form>
+        <button type="submit" data-target="modal1" class="waves-effect waves-light btn modal-trigger deep-orange lighten-3"
+          id="submitBtn">Submit</button>
+      </div>
+    </div>
+    <div class='col s4'>
+      <p><a href='/api/friends'>API Friends List</a> | <a href='https://github.com/JoleenTsai/FriendFinder' target='_blank'>GitHub
+          Repo</a></p>
+    </div>
+
+    <div id="modal1" class="modal">
+      <div class="modal-content">
+        <h4> Your BFF</h4>
+        <h5 id="matchName"></h5>
+        <img id="matchPic" src="" alt="No Image" width=250px>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class=" modal-action modal-close waves-effect waves-orange btn-flat">Done</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+  <script type="text/javascript">
+
+    $(document).ready(function () {
+      $("#submitBtn").on("click", function () {
+        function validateForm() {
+          var isValid = true;
+          $('.validate').each(function () {
+            if ($(this).val() === '') {
+              isValid = false;
+            }
+          });
+          $('.browser-default').each(function () {
+            if ($(this).val() === "") {
+              isValid = false;
+            }
+          });
+          return isValid;
+        }
+        if (validateForm() === true) {
+          var userScore = {
+            name: $('#name').val().trim(),
+            scores: [
+              $('#q1').val(),
+              $('#q2').val(),
+              $('#q3').val(),
+              $('#q4').val(),
+              $('#q5').val(),
+              $('#q6').val(),
+              $('#q7').val(),
+              $('#q8').val(),
+              $('#q9').val(),
+              $('#q10').val(),
+            ]
+          };
+
+          var currentURL = window.location.origin;
+          $.post(currentURL + "/api/friends", userScore, function (data) {
+            $("#matchName").text(data.name);
+            $("#matchPic").attr("src", data.photo);
+          });
+          $('.modal').modal();
+
+          //clear form after submission
+          $('#name').val("");
+          $('#q1').val("");
+          $('#q2').val("");
+          $('#q3').val("");
+          $('#q4').val("");
+          $('#q5').val("");
+          $('#q6').val("");
+          $('#q7').val("");
+          $('#q8').val("");
+          $('#q9').val("");
+          $('#q10').val("");
+        } else {
+          alert("Please fill out ALL fields before submitting survey!")
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

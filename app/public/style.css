@@ -1,0 +1,19 @@
+body {
+  font-family: Arial, Helvetica, sans-serif
+}
+h1, h4, h5 {
+  font-family: 'Pacifico', cursive;
+}
+h4 {
+  font-family: 'Pacifico', cursive;
+}
+.container {
+  border-radius: 25px;
+}
+
+#submitBtn {
+  border-radius: 25px;
+}
+.btnFriendFinder {
+  border-radius: 25px;
+}
