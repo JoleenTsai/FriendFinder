@@ -6,34 +6,32 @@ module.exports = function (app) {
   });
 
   app.post('/api/friends', function (req, res) {
-    //grabs the new friend's scores to compare with friends in friendList array
-    var scoresArray = [];
-    var userScore = req.body.scores;
-    var friendCount = 0;
-    var bestMatch = 0;
+    var userScore = req.body;
+    var userResponses = userScore.scores;
+
+    // Compute best friend match
+    var matchName = '';
+    var matchPic = '';
+    var totalDifference = 10000;
 
     for (var i = 0; i < surveyAnswers.length; i++) {
-      var scoresDiff = 0;
-
-      //run through scores to compare friends
-      for (var j = 0; j < userScore.length; j++) {
-        scoresDiff += (Math.abs(parseInt(surveyAnswers[i].scores[j]) - parseInt(userScore[j])));
+      var diff = 0;
+      for (var j = 0; j < userResponses.length; j++) {
+        diff += Math.abs(surveyAnswers[i].scores[j] - userResponses[j]);
       }
 
-      //push results into scoresArray
-      scoresArray.push(scoresDiff);
-    }
+      // If lowest difference, record the friend match
+      if (diff < totalDifference) {
 
-    //after all friends are compared, find best match
-    for (var i = 0; i < scoresArray.length; i++) {
-      if (scoresArray[i] <= scoresArray[bestMatch]) {
-        bestMatch = i;
+        totalDifference = diff;
+        matchName = surveyAnswers[i].name;
+        matchImage = surveyAnswers[i].photo;
       }
     }
 
-    //return bestMatch data
-    var bff = surveyAnswers[bestMatch];
-    res.json(bff);
-    surveyAnswers.push(req.body);
-  }); 
+    // Add new user
+    surveyAnswers.push(userScore);
+    //Send response
+    res.json({ status: 'OK', matchName: matchName, matchImage: matchImage });
+  });
 };

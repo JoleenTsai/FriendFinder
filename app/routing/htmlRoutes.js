@@ -1,4 +1,4 @@
-const surveyPath = require('../public/survey')
+const path = require('path')
 
 module.exports = function (app) {
   app.get("/survey", function (req, res) {
