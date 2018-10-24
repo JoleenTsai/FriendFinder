@@ -30,7 +30,11 @@ module.exports = function (app) {
     }
 
     // Add new user
-    surveyAnswers.push(userScore);
+    app.post("/api/friends", (req, res) => {
+        surveyAnswers.push(req.body)
+        res.json(false)
+      }
+    })
     //Send response
     res.json({ status: 'OK', matchName: matchName, matchImage: matchImage });
   });

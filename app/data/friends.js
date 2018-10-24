@@ -49,7 +49,7 @@ var surveyAnswers = [
 }
 {
   "name": "Joey",
-  "photo": "https://giphy.com/embed/7CXoqbOoTAjXq",
+  "photo": "../images/joey-lipstick.jpg",
       "scores": [
         5,
         5,
@@ -81,7 +81,7 @@ var surveyAnswers = [
 }
 {
   "name": "Ross",
-  "photo": "https://giphy.com/embed/FY56lXEc3KY9y",
+  "photo": "../images/ross-fine.jpg",
       "scores": [
         3,
         2,
